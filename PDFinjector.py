@@ -4,7 +4,7 @@ import argparse, execjs, re
 banner = r"""     __     _____ ____  _____
 |--_ /_-| |    ||    \|  __| _  __ _  _    ___  ___  ___  ___  ___
 |  / /  | | |__|| |  ||  __|| || \  || |_ | __|/ __||_ _||   || |_|
-|--/----| |__|  |____/|__|  |_||_|\_|| / /|_--|\___| |_| |___||_\_\ V1.0"""
+|--/----| |__|  |____/|__|  |_||_|\_|| / /|_--|\___| |_| |___||_\_\ V1.1"""
 
 print(banner)
 parser = argparse.ArgumentParser(description="PDFinjector can insert javascript code in pdf files, perfect for social engineering.")
