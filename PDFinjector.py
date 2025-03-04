@@ -1,7 +1,12 @@
 from pypdf import PdfWriter, PdfReader
 import argparse, execjs, re
 
+banner = r"""     __     _____ ____  _____
+|--_ /_-| |    ||    \|  __| _  __ _  _    ___  ___  ___  ___  ___
+|  / /  | | |__|| |  ||  __|| || \  || |_ | __|/ __||_ _||   || |_|
+|--/----| |__|  |____/|__|  |_||_|\_|| / /|_--|\___| |_| |___||_\_\ V1.0"""
 
+print(banner)
 parser = argparse.ArgumentParser(description="PDFinjector can insert javascript code in pdf files, perfect for social engineering.")
 
 cporcfp = parser.add_mutually_exclusive_group()
@@ -13,10 +18,7 @@ parser.add_argument("-ob", "--obfuscate", action="store_true", help="obfuscate t
 
 args = parser.parse_args()
 
-banner = r"""     __     _____ ____  _____
-|--_ /_-| |    ||    \|  __| _  __ _  _    ___  ___  ___  ___  ___
-|  / /  | | |__|| |  ||  __|| || \  || |_ | __|/ __||_ _||   || |_|
-|--/----| |__|  |____/|__|  |_||_|\_|| / /|_--|\___| |_| |___||_\_\ V1.0"""
+
 payloads = [
     
     "console.println('JavaScript is running');", "classic log",
