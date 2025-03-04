@@ -11,7 +11,7 @@ use of the pre-built-in payloads
 ![PDFinjector](https://github.com/H4k1l/PDFinjector/blob/main/images/3.png)
 # Usage
 ----
-'''python3 .\PDFinjector.py -h
+```python3 .\PDFinjector.py -h
      __     _____ ____  _____
 |--_ /_-| |    ||    \|  __| _  __ _  _    ___  ___  ___  ___  ___
 |  / /  | | |__|| |  ||  __|| || \  || |_ | __|/ __||_ _||   || |_|
@@ -30,7 +30,7 @@ options:
   -cfp CUSTOMFILEPAYLOAD, --customfilepayload CUSTOMFILEPAYLOAD
                         the custompayload to inject, via file.js
   -ob, --obfuscate      obfuscate the code using jsfuck
-'''
+```
 # Disclaimer
 ----
 The author is not responsible for any damages, misuse or illegal activities resulting from the use of this code.
